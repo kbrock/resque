@@ -240,6 +240,9 @@ module Resque
   # Given a class, try to extrapolate an appropriate queue based on a
   # class instance variable or `queue` method.
   def queue_from_class(klass)
+    if klass.is_a?(String)
+      klass=constantize(klass)
+    end
     klass.instance_variable_get(:@queue) ||
       (klass.respond_to?(:queue) and klass.queue)
   end
